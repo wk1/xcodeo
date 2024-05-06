@@ -1,8 +1,9 @@
-#!/opt/homebrew/bin/python3
+#!/usr/bin/env python3
 import os
 import subprocess
 import sys
 import inquirer
+import argparse
 
 def find_files(extension):
     return [f for f in os.listdir('.') if f.endswith(extension)]
@@ -13,14 +14,31 @@ def open_with_xcode(file_path):
 def interactive_select(files):
     questions = [
         inquirer.List('file',
-                      message="Wähle eine Datei zum Öffnen",
+                      message="Wähle eine Datei zum Öffnen",
                       choices=files,
         )
     ]
     answer = inquirer.prompt(questions)
     return answer['file']
 
-def main(extension):
+def main():
+    parser = argparse.ArgumentParser(description="Tool zur Interaktion mit Xcode-Projekten. Dieses Tool ermöglicht es, .xcodeproj oder .xcworkspace Dateien auszuwählen und in Xcode zu öffnen.",
+                                     epilog="Beispielgebrauch: xcodeo --project oder xcodeo -w für workspaces.")
+
+    parser.add_argument('-p', '--project', action='store_true', 
+                        help="Verarbeite .xcodeproj Dateien (standardmäßig).")
+    parser.add_argument('-w', '--workspace', action='store_true', 
+                        help="Verarbeite .xcworkspace Dateien.")
+
+    args = parser.parse_args()
+
+    # Default to .xcodeproj unless --workspace is specified
+    if args.workspace:
+        extension = ".xcworkspace"
+    else:
+        extension = ".xcodeproj"  # Default behavior
+
+    print(f"Verarbeite Dateien mit der Endung: {extension}")
     files = find_files(extension)
 
     if len(files) == 0:
@@ -37,5 +55,4 @@ def main(extension):
             sys.exit(1)
 
 if __name__ == "__main__":
-    extension = ".xcodeproj" if len(sys.argv) < 2 or sys.argv[1] != "w" else ".xcworkspace"
-    main(extension)
+    main()
