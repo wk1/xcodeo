@@ -4,7 +4,7 @@ import subprocess
 import sys
 import inquirer
 import argparse
-from version import __version__
+from .version import __version__
 
 def find_files(extension, path):
     return [f for f in os.listdir(path) if f.endswith(extension)]

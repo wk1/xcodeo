@@ -1,5 +1,5 @@
 from setuptools import setup, find_packages
-from version import __version__
+from xcodeo.version import __version__
 
 setup(
     name='xcodeo',
