@@ -39,6 +39,8 @@ def main():
                         help="Open .xcodeproj files (default).")
     parser.add_argument('-w', '--workspace', action='store_true', 
                         help="Open .xcworkspace files.")
+    parser.add_argument('-s', '--swiftpackage', action='store_true', 
+                        help="Open .swiftpm files.")
     parser.add_argument('-v', '--version', action='version', version=f'xcodeo version {__version__}',
                         help="Show current version")
     
@@ -47,14 +49,16 @@ def main():
     # Default to .xcodeproj unless --workspace is specified
     if args.workspace:
         extension = ".xcworkspace"
+    elif args.swiftpackage:
+        extension = ".swiftpm"
     else:
         extension = ".xcodeproj"  # Default behavior
 
-    print(f"Opening \033[3m{extension}\033[0m file(s) in Xcode. 🚀\n")
+    print(f"Opening \033[3m\033[38;2;245;131;146m{extension}\033[0m file(s) in Xcode. 🚀\n")
     files = find_files(extension, args.path)
 
     if len(files) == 0:
-        print(f"\033[3m{extension}\033[0m file(s) not found.")
+        print(f"\033[3m\033[38;2;245;131;146m{extension}\033[0m file(s) not found.")
         sys.exit(1)
     elif len(files) == 1:
         open_with_xcode(files[0])
