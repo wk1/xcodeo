@@ -16,7 +16,7 @@ def interactive_select(files):
     try:
         questions = [
             inquirer.List('file',
-                          message="Choose a file to open in Xcode 🫵",
+                          message="Choose a file to open in Xcode 💾",
                           choices=files,
         )
         ]
@@ -54,13 +54,17 @@ def main():
     else:
         extension = ".xcodeproj"  # Default behavior
 
-    print(f"Opening \033[3m\033[38;2;245;131;146m{extension}\033[0m file(s) in Xcode. 🚀\n")
+    print(f"\nOpening \033[1m\033[3m\033[38;2;245;131;146m{extension}\033[0m file(s) in Xcode. 🐛\n")
     files = find_files(extension, args.path)
 
     if len(files) == 0:
-        print(f"\033[3m\033[38;2;245;131;146m{extension}\033[0m file(s) not found.")
+        print(f"\n\033[1m\033[3m\033[38;2;245;131;146m{extension}\033[0m file(s) not found. 🤕\n")
         sys.exit(1)
     elif len(files) == 1:
+        if args.swiftpackage:
+            # show the contents of the package.swift file in shell (for version control)
+            file_dir = os.path.dirname(files[0])
+            os.chdir(file_dir)
         open_with_xcode(files[0])
     else:
         selected_file = interactive_select(files)
