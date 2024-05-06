@@ -2,15 +2,14 @@ from setuptools import setup, find_packages
 
 setup(
     name='xcodeo',
-    version='0.0.2',
+    version='0.0.3',
     packages=find_packages(),
     install_requires=[
-        'inquirer==3.2.4',  # Ensure the correct version is specified
-        # Add any other dependencies here
+        'inquirer>=2.7.0',
     ],
     entry_points={
         'console_scripts': [
-            'xcodeo=xcodeo.main:main',
+            'xcodeo=xcodeo.main:main',  # This entry point calls the main function
         ],
     },
 )
