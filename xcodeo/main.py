@@ -4,6 +4,7 @@ import subprocess
 import sys
 import inquirer
 import argparse
+from version import __version__
 
 def find_files(extension, path):
     return [f for f in os.listdir(path) if f.endswith(extension)]
@@ -38,7 +39,7 @@ def main():
                         help="Open .xcodeproj files (default).")
     parser.add_argument('-w', '--workspace', action='store_true', 
                         help="Open .xcworkspace files.")
-    parser.add_argument('-v', '--version', action='version', version='xcodeo version 0.0.5',
+    parser.add_argument('-v', '--version', action='version', version='xcodeo version {__version__}',
                         help="Show current version")
     
     args = parser.parse_args()
