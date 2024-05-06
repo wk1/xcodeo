@@ -49,7 +49,7 @@ def main():
     else:
         extension = ".xcodeproj"  # Default behavior
 
-    print(f"Opening \033[3m{extension}\033[0m file(s) in Xcode. 🚀\prn")
+    print(f"Opening \033[3m{extension}\033[0m file(s) in Xcode. 🚀\n")
     files = find_files(extension, args.path)
 
     if len(files) == 0:
