@@ -31,6 +31,8 @@ def main():
                         help="Verarbeite .xcodeproj Dateien (standardmäßig).")
     parser.add_argument('-w', '--workspace', action='store_true', 
                         help="Verarbeite .xcworkspace Dateien.")
+    parser.add_argument('-v', '--version', action='version', version='xcodeo version 0.0.4',
+                        help="Display the version of the tool")
     
     args = parser.parse_args()
 
