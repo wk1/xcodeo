@@ -12,27 +12,34 @@ def open_with_xcode(file_path):
     subprocess.run(["open", "-a", "Xcode", file_path])
 
 def interactive_select(files):
-    questions = [
-        inquirer.List('file',
-                      message="Wähle eine Datei zum Öffnen",
-                      choices=files,
+    try:
+        questions = [
+            inquirer.List('file',
+                          message="Choose a file to open in Xcode 🫵",
+                          choices=files,
         )
-    ]
-    answer = inquirer.prompt(questions)
-    return answer['file']
+        ]
+        answer = inquirer.prompt(questions)
+        if answer and 'file' in answer:
+            return answer['file']
+        else:
+            return None
+    except KeyboardInterrupt:
+        print("\nExecution interrupted by user. Exiting. 👋")
+        sys.exit(1)
 
 def main():
-    parser = argparse.ArgumentParser(description="Tool zur Interaktion mit Xcode-Projekten. Dieses Tool ermöglicht es, .xcodeproj oder .xcworkspace Dateien auszuwählen und in Xcode zu öffnen.",
-                                     epilog="Beispielgebrauch: xcodeo --project oder xcodeo -w für workspaces.")
+    parser = argparse.ArgumentParser(description="Tool for interacting with Xcode projects. This tool makes it possible to select .xcodeproj or .xcworkspace files and open them in Xcode.",
+                                     epilog="Example usage: xcodeo --project or xcodeo -w for workspaces.")
     
     parser.add_argument('path', type=str, 
-                        help="Pfad zu den .xcodeproj/.xcworkspace Dateien.")
+                        help="Path to .xcodeproj/.xcworkspace files.")
     parser.add_argument('-p', '--project', action='store_true',
-                        help="Verarbeite .xcodeproj Dateien (standardmäßig).")
+                        help="Open .xcodeproj files (default).")
     parser.add_argument('-w', '--workspace', action='store_true', 
-                        help="Verarbeite .xcworkspace Dateien.")
-    parser.add_argument('-v', '--version', action='version', version='xcodeo version 0.0.4',
-                        help="Display the version of the tool")
+                        help="Open .xcworkspace files.")
+    parser.add_argument('-v', '--version', action='version', version='xcodeo version 0.0.5',
+                        help="Show current version")
     
     args = parser.parse_args()
 
@@ -42,11 +49,11 @@ def main():
     else:
         extension = ".xcodeproj"  # Default behavior
 
-    print(f"Verarbeite Dateien mit der Endung: {extension}")
+    print(f"Opening \033[3m{extension}\033[0m file(s) in Xcode. 🚀\prn")
     files = find_files(extension, args.path)
 
     if len(files) == 0:
-        print(f"Keine {extension} Dateien gefunden.")
+        print(f"\033[3m{extension}\033[0m file(s) not found.")
         sys.exit(1)
     elif len(files) == 1:
         open_with_xcode(files[0])
@@ -55,7 +62,7 @@ def main():
         if selected_file:
             open_with_xcode(selected_file)
         else:
-            print("Keine Auswahl getroffen.")
+            print("No selection made.")
             sys.exit(1)
 
 if __name__ == "__main__":
