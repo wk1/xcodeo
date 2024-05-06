@@ -39,7 +39,7 @@ def main():
                         help="Open .xcodeproj files (default).")
     parser.add_argument('-w', '--workspace', action='store_true', 
                         help="Open .xcworkspace files.")
-    parser.add_argument('-v', '--version', action='version', version='xcodeo version {__version__}',
+    parser.add_argument('-v', '--version', action='version', version=f'xcodeo version {__version__}',
                         help="Show current version")
     
     args = parser.parse_args()
