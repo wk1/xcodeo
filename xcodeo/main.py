@@ -61,10 +61,6 @@ def main():
         print(f"\n\033[1m\033[3m\033[38;2;245;131;146m{extension}\033[0m file(s) not found. 🤕\n")
         sys.exit(1)
     elif len(files) == 1:
-        if args.swiftpackage:
-            # show the contents of the package.swift file in shell (for version control)
-            file_dir = os.path.dirname(files[0])
-            os.chdir(file_dir)
         open_with_xcode(files[0])
     else:
         selected_file = interactive_select(files)
